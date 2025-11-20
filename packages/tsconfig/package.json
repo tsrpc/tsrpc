@@ -1,0 +1,12 @@
+{
+  "name": "@tsrpc/tsconfig",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Common tsconfig for TSRPC monorepo",
+  "exports": {
+    ".": "./tsconfig.json",
+    "node": "./tsconfig-node.json",
+    "browser": "./tsconfig-browser.json"
+  },
+  "packageManager": "pnpm@10.22.0"
+}

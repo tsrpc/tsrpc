@@ -1,11 +1,89 @@
-dist
-/coverage
-.nyc_output
+# Dependencies
 node_modules
-package-lock.json
-yarn.lock
-npm-debug.log
-yarn-error.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build outputs
+dist
+build
+out
+*.tsbuildinfo
+.turbo
+
+# Testing
+coverage
+*.lcov
+.nyc_output
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+
+# OS files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
-/packages/*/coverage
+*~
+
+# IDE & Editor
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea
+*.swp
+*.swo
+*.swn
+.sublime-*
+*.sublime-workspace
+*.sublime-project
+.project
+.classpath
+.settings/
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Debug
+.vscode-test
+
+# Cache
+.cache
+.parcel-cache
+.eslintcache
+.stylelintcache
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Misc
+*.orig
+*.rej
+.pnp.*
+.yarn/
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

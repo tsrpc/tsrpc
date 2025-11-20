@@ -1,36 +1,22 @@
 {
+  "name": "@tsrpc/monorepo",
   "private": true,
   "type": "module",
-  "devDependencies": {
-    "@istanbuljs/nyc-config-typescript": "^1.0.2",
-    "@types/node": "^18.8.3",
-    "@typescript-eslint/eslint-plugin": "^5.52.0",
-    "@typescript-eslint/parser": "^5.52.0",
-    "eslint": "^8.34.0",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-import": "^2.27.5",
-    "lerna": "^6.4.1",
-    "nx": "^15.6.3",
-    "nyc": "^15.1.0",
-    "onchange": "^7.1.0",
-    "prettier": "^2.8.4",
-    "shx": "^0.3.4",
-    "source-map-support": "^0.5.21",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
-  },
   "scripts": {
-    "lint": "nx run-many --target=lint",
-    "test": "nx run-many --target=test",
-    "check": "nx run-many --target=check",
-    "coverage": "nx run-many --target=coverage",
-    "dev": "onchange -i -k 'packages/*/src/**/*.ts' -e 'packages/test' -- npm run build",
-    "build": "nx run-many --target=build",
-    "format": "nx format:write --all",
-    "format:check": "nx format:check --all",
-    "version:dev": "lerna version --conventional-commits --conventional-prerelease --preid dev --no-git-tag-version",
-    "version:prod": "",
-    "publish:dev": "",
-    "publish:prod": ""
+    "lint": "oxlint --type-aware",
+    "lint:fix": "oxlint --fix --type-aware",
+    "lint:ci": "oxlint --deny-warnings",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write packages scripts examples",
+    "format:check": "prettier --check packages scripts examples"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@10.22.0",
+  "devDependencies": {
+    "@tsrpc/tsconfig": "workspace:*",
+    "oxlint": "^1.29.0",
+    "oxlint-tsgolint": "^0.7.3",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
   }
 }

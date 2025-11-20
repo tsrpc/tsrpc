@@ -1,5 +1,41 @@
-# Add files here to ignore them from prettier formatting
-
-dist
-/coverage
+# Dependencies
 node_modules
+**/node_modules
+
+# Build outputs
+dist
+build
+out
+*.tsbuildinfo
+.turbo
+
+# Testing
+coverage
+*.lcov
+.nyc_output
+
+# Lock files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Logs
+*.log
+logs
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
+
+# Cache
+.cache
+.eslintcache
+
+# Other
+*.orig
+*.rej
+

@@ -37,6 +37,7 @@ call.result
 ```
 
 - 也可以 call.success / call.error 提前返回
+- serviceProto -> contract.ts
 
 - API 的延迟返回，改为 Promise 模式：
 

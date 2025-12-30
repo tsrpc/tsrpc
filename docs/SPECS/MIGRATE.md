@@ -62,6 +62,7 @@ export async function apiXxxx(
 - MsgCall 更名为 MsgContext
 - 文档：ret 更名为 result
 - 协议定义 Ptl 更名为 Api, Api 实现前缀更名为 api
+- Miniapp 更名为 MiniProgram
 
 ## Flow 更名
 

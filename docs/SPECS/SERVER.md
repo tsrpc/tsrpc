@@ -52,7 +52,7 @@ const server = new HttpServer( ... )
  * Item: 流过程中的数据 (Data)
  * Result: 流结束后的汇总 (Summary)
  */
-export interface Stream<Chunk, Res> extends AsyncIterable<Item> {
+export interface TsrpcStream<Chunk, Res> extends AsyncIterable<Item> {
     /**
      * 等待流结束并获取 Summary
      * 注意：如果你不遍历完流，这个 Promise 可能永远不会 Resolve
@@ -62,7 +62,7 @@ export interface Stream<Chunk, Res> extends AsyncIterable<Item> {
 
 // 协议定义
 export interface ReqChatWithAI {}
-export type ResChatWithAI = Stream<ChunkType, ResType>
+export type ResChatWithAI = TsrpcStream<ChunkType, ResType>
 
 // API
 call.sendChunk({ content: 'XX', time: new Date(), ...});

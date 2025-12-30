@@ -43,8 +43,10 @@ export default async function (call: ApiCall<Req, Res>): Promise<ApiResult<Res>>
 ```
 
 ## SSE
+
 application/octet-stream 和 event/text-stream 同时支持
-```
+
+```ts
 const server = new HttpServer( ... )
 
 /**
@@ -70,7 +72,7 @@ return call.success({});
 ```
 
 ## WebSocket
-```
+```ts
 conn.sendMsg({})
 conn.onMsg('Xxx', handler)
 conn.offMsg('Xxx', handler)
@@ -78,7 +80,7 @@ conn.offMsg('Xxx')
 ```
 
 ## WebUDP
-```
+```ts
 conn.sendMsg({})
 conn.sendMsgUnreliable({})
 conn.onMsg('Xxx', handler)

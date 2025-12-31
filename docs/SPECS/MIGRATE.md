@@ -86,3 +86,5 @@ export async function apiXxxx(
 - beforeApiResult
 - beforeHandleClientApi
 - beforeReturnClientApi
+
+- 支持 Symlink + Monorepo 两种代码共享模式

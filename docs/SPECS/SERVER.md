@@ -40,6 +40,11 @@ export default async function (call: ApiCall<Req, Res>): Promise<ApiResult<Res>>
 
     return call.error('xxx')
 }
+
+// Contractless Client
+const client = new HttpClientBrowser<ContractType>({
+    server: 'https://xxx.com/api/'
+})
 ```
 
 ## SSE

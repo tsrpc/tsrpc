@@ -16,6 +16,11 @@
 - @tsrpc/mini-program：小程序平台实现
 - @tsrpc/react：React Hook
 
+## Structure
+
+- Monorepo
+- Flat config: 精简结构的 monorepo，packages 里只需要 src、__test_
+
 ## @tsrpc/core
 
 ### TsrpcServer

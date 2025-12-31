@@ -5,16 +5,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "k8w",
   "license": "MIT",
   "packageManager": "pnpm@10.22.0",
-  "dependencies": {
-    "@tsrpc/tsconfig": "workspace:*"
-  },
   "devDependencies": {
     "typescript": "^5.9.3"
   }

@@ -3,10 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "oxlint --type-aware",
-    "lint:fix": "oxlint --fix --type-aware",
-    "lint:ci": "oxlint --deny-warnings",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write packages scripts examples",
     "format:check": "prettier --check packages scripts examples"
   },
@@ -14,10 +12,14 @@
   "packageManager": "pnpm@10.22.0",
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
-    "@tsrpc/tsconfig": "workspace:*",
-    "oxlint": "^1.29.0",
-    "oxlint-tsgolint": "^0.7.3",
+    "@eslint/js": "^9.39.2",
+    "@types/node": "^25.0.3",
+    "eslint": "^9.39.2",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import-x": "^4.16.1",
+    "jiti": "^2.6.1",
     "prettier": "^3.6.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.51.0"
   }
 }

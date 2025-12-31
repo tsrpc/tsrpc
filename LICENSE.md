@@ -1,6 +1,6 @@
 MIT License
 
-Copyright 2019-2025 KinWorks (Shenzhen) Tech Co., Ltd. (金匠时代（深圳）科技有限公司)
+Copyright 2017-2025 KinWorks (Shenzhen) Tech Co., Ltd. (金匠时代（深圳）科技有限公司)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the “Software”), to deal in

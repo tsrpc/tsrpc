@@ -20,6 +20,6 @@ export default defineConfig({
 
     // 6. 辅助配置
     sourcemap: true,   // 生成 sourcemap
-    // platform: 'neutral', // 中立平台，不注入特定 polyfill
+    platform: 'neutral', // 中立平台，不注入特定 polyfill
     minify: 'dce-only',     // 库通常不压缩，交给使用者的 bundler 处理
 });

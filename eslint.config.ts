@@ -1,10 +1,12 @@
 import eslint from '@eslint/js';
 import importX from 'eslint-plugin-import-x';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
+import type { Plugin } from '@eslint/core';
 
-export default [
+export default defineConfig(
     // 1. 忽略的文件 (相当于以前的 .eslintignore)
-    { ignores: ['dist', 'node_modules'] },
+    { ignores: ['packages/*/dist', 'node_modules'] },
 
     // 2. 基础 JS 推荐规则
     eslint.configs.recommended,
@@ -19,7 +21,7 @@ export default [
 
         // 注册插件
         plugins: {
-            'import-x': importX,
+            'import-x': importX as unknown as Plugin,
         },
 
         settings: {
@@ -45,4 +47,4 @@ export default [
             '@typescript-eslint/no-explicit-any': 'warn',
         },
     },
-];
+);

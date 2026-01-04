@@ -3,22 +3,30 @@ NOTE
 
 ## 公共 package.json
 ```json
-"exports": {
+{
+  "name": "???",
+  "version": "???",
+  "description": "",
+  "license": "MIT",
+  "author": "k8w",
+  "type": "module",
+  "exports": {
     ".": {
-        "import": {
+      "import": {
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
-        },
-        "require": {
+      },
+      "require": {
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
-        }
+      }
     }
-},
-"main": "./dist/index.cjs",
-"module": "./dist/index.js",
-"types": "./dist/index.d.ts",
-"files": [
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
     "dist"
-],
+  ]
+}
 ```

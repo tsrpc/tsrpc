@@ -19,8 +19,7 @@ export default defineConfig({
     dts: true,
 
     // 6. 辅助配置
-    clean: true,       // 每次构建前清理 dist
     sourcemap: true,   // 生成 sourcemap
-    platform: 'neutral', // 中立平台，不注入特定 polyfill
-    minify: false,     // 库通常不压缩，交给使用者的 bundler 处理
+    // platform: 'neutral', // 中立平台，不注入特定 polyfill
+    minify: 'dce-only',     // 库通常不压缩，交给使用者的 bundler 处理
 });

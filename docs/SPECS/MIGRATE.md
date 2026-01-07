@@ -23,7 +23,7 @@ type ApiResult<Res> = {
 ```
 
 JoinRoom {
-  return await room.match(call);
+return await room.match(call);
 }
 
 - call.succ / call.error 改为 return call.success(Res) / return call.error({ ... })
@@ -45,21 +45,18 @@ call.result
 // 假设 room.addMember 被改造为：
 // async addMember(userId: string): Promise<Res> { ... }
 
-export async function apiXxxx(
-  call: ApiCall<Req, Res>,
-): Promise<ApiResult<Res>> {
+export async function apiXxxx(call: ApiCall<Req, Res>): Promise<ApiResult<Res>> {
   const resultData = await roomServer.match(call);
   return { success: true, data: resultData };
 }
 ```
 
 - Validator 的 isSucc 更名为 ok，以更好的适应国际化
-- listenMsg 更名为 `onMsg` `offMsg`
+- listenMsg 更名为 `onMsg` `offMsg`, server/client 统一 onMsg 内接收 call，同时 onMsg 支持强类型通配符
 - logger.prefixs 改为 logger.prefixes
 - TsrpcErrorType 改为 AppError / NetworkError / InternalError
 - 返回结构改为 { success=true, data=XxxRes } | {success=false, error={...}}
 - Api 定义：ApiXxx.ts export errorCode
-- MsgCall 更名为 MsgContext
 - 文档：ret 更名为 result
 - 协议定义 Ptl 更名为 Api, Api 实现前缀更名为 api
 - Miniapp 更名为 MiniProgram

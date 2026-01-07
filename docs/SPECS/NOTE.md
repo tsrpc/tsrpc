@@ -4,8 +4,8 @@ NOTE
 ## 公共 package.json
 ```json
 {
-  "name": "???",
-  "version": "???",
+  "name": "@tsrpc/x",
+  "version": "0.1",
   "description": "",
   "license": "MIT",
   "author": "k8w",

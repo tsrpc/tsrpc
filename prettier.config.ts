@@ -42,13 +42,13 @@ const config: Config = {
         printWidth: 200, // Allow longer line width for JSON files
       },
     },
-    {
-      files: "*.md",
-      options: {
-        proseWrap: "always", // Markdown auto-wrap
-        printWidth: 80,
-      },
-    },
+    // {
+    //   files: "*.md",
+    //   options: {
+    //     proseWrap: "always", // Markdown auto-wrap
+    //     printWidth: 80,
+    //   },
+    // },
   ],
 };
 

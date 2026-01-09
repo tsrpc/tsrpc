@@ -1,27 +1,142 @@
 # SPECS
 
-## 传输协议无关的 Server 设计
+## Packages
 
-```ts
-const server = new Server({ serviceProto, transport });
+对开发者提供
 
-// 注册 API
-server.registerApi('user/Login', call => { })
-server.registerApiDir('*', './api/')
-server.registerApiDir('*', './api/', { ignore: '...' })
-server.registerApiDir('user/*', './api/user/')
+- tsrpc: `export * from '@tsrpc/node'`
+- create-tsrpc-app
+- @tsrpc/node
+- @tsrpc/browser
+- @tsrpc/mini-program
+- @tsrpc/react
+- @tsrpc/cli
 
-server.flows.xxx.push(...)
+核心依赖
 
-server.start()
+- @tsrpc/core: RPC 核心库，包括 BaseServer、BaseClient, BaseTransport,
+- @tsrpc/types: 该库只有类型定义，无任何外部依赖，含 Contract、Schema、TsrpcError 等
+- @tsrpc/utils：工具库
+- @tsrpc/cli: 生成 Contract、Sync、Dev、Build、Deploy
+- @tsrpc/contract-generator: Schema / Contract 生成器
+- @tsrpc/validator
+- @tsrpc/serializer
+
+## Project Structure
+
+- Monorepo
+- Flat config: 精简结构的 monorepo，packages 里只需要 src、test
+
+## Basic Usage
+
+### API
+
+#### Definition
+
+```ts ApiHello.ts
+export interface ReqHello {
+  name: string;
+}
+export interface ResHello {
+  message: string;
+}
 ```
 
-## HTTP
+#### Server Implementation
+
+```ts apiHello.ts
+export async function apiHello(call: ApiCall<ReqHello, ResHello>): Promise<ApiResult<ResHello>> {
+  return call.success({ message: `Hello, ${call.req.name}!` });
+}
+```
+
+#### Client Call
+
+```ts
+const client = new HttpClient({
+  server: 'http://localhost:3000',
+});
+client.callApi('hello', { name: 'World' });
+```
+
+### Realtime Message
+
+#### Definition
+
+```ts MsgHello.ts
+export interface MsgHello {
+  name: string;
+  message: string;
+}
+```
+
+#### Send
+
+```ts
+client.sendMsg('Hello', { name: 'World', message: 'Hello, World!' });
+server.connections[0].sendMsg('Hello', { name: 'World', message: 'Hello, World!' });
+```
+
+#### Receive
+
+```ts
+server.onMsg('Hello', (call: MsgCall<MsgHello, 'Hello'>) => {
+  console.log(call.msg.name, call.msg.message);
+});
+
+server.offMsg('Hello', handler);
+server.offMsg('Hello'); // 移除所有 Hello 的监听
+```
+
+通配符监听
+
+强类型，通过 TS 自动推断所有通配符
+
+```ts
+server.onMsg(
+  'room/*',
+  (call: MsgCall<MsgUserJoin, 'user/Join'> | MsgCall<MsgUserLeave, 'user/Leave'>) => {
+    console.log(call.path, call.msg);
+  },
+);
+server.offMsg('Hello/*', handler);
+server.offMsg('Hello/*'); // 移除所有 Hello/* 的监听
+```
+
+### Client Command
+
+#### Definition
+
+```ts CmdHello.ts
+export interface ReqHello {
+  name: string;
+}
+export interface ResHello {
+  message: string;
+}
+```
+
+#### Client Implementation
+
+```ts cmdHello.ts
+export async function cmdHello(call: CmdCall<ReqHello, ResHello>): Promise<CmdResult<ResHello>> {
+  return call.success({ message: `Hello, ${call.req.name}!` });
+}
+```
+
+#### Server Call
+
+```ts
+server.connections[0].callCmd('Hello', { name: 'World' });
+```
+
+### HTTP
 
 ```ts
 const server = new HttpServer({
   contract: contract,
   port: 80,
+  // 同时监听 2 个端口
   https: {
     port: 443,
     pem: 'xxx',
@@ -49,7 +164,7 @@ const client = new HttpClientBrowser<ContractType>({
 });
 ```
 
-## SSE
+### SSE
 
 application/octet-stream 和 event/text-stream 同时支持
 
@@ -80,7 +195,7 @@ call.sendChunk({ content: 'XX', time: new Date(), ...});
 return call.success({});
 ```
 
-## WebSocket
+### WebSocket
 
 ```ts
 conn.sendMsg({});
@@ -102,7 +217,12 @@ conn.offMsg('Xxx', handler);
 conn.offMsg('Xxx');
 ```
 
-## WebUDP
+#### 增加 AutoConnect 和 AutoDisconnect 机制
+- AutoConnect: 在 callApi / onMsg 时，自动 ensureConnected，默认启用
+- AutoDisconnect: 如果是通过 AutoConnect 连接的，则超过时间限制没有 callApi / onMsg 时，自动关闭；如果是通过 connect 手动连接的，则永远不触发 AutoDisconnect
+- AutoReconnect: 默认开启，意外断开时自动重连，通过 lastConnectionId 自动恢复 connection.meta 状态和 msg 订阅状态；手动断开时不重连
+
+### WebRTC
 
 ```ts
 conn.sendMsg({});
@@ -111,6 +231,13 @@ conn.onMsg('Xxx', handler);
 conn.offMsg('Xxx', handler);
 conn.offMsg('Xxx');
 ```
+
+### 认证和状态恢复
+WIP
+- 是否需要框架提供？
+- server.connection.meta
+- server needAuth
+- client afterConnect, beforeCallApi & beforeSendMsg
 
 ## 双向调用设计
 
@@ -143,6 +270,12 @@ contracts: [
   },
 ],
 ```
+
+## 传输协议无关架构设计
+
+### @tsrpc/core
+- 提供 Server / Client / Transport 的核心抽象
+- 如何兼容长连接、短连接、无连接？
 
 ## Flow
 
@@ -258,14 +391,14 @@ import { HttpServer } from 'tsrpc';
 import { AuthPluginServer } from '@tsrpc/plugin-auth/server';
 
 const server = new HttpServer({
-    // ...
-    plugins: [
-        AuthPluginServer({
-            secret: process.env.JWT_SECRET,
-            // 运行时配置：从哪里读取 Token
-            headerName: 'x-app-token' 
-        })
-    ]
+  // ...
+  plugins: [
+    AuthPluginServer({
+      secret: process.env.JWT_SECRET,
+      // 运行时配置：从哪里读取 Token
+      headerName: 'x-app-token',
+    }),
+  ],
 });
 ```
 
@@ -332,7 +465,7 @@ server.use(
 );
 ```
 
-## Gateway (Plus)
+## Draft: Gateway (Plus)
 
 支持 HttpServer、WsServer 等多种 Server 复用同一个 port
 
@@ -347,18 +480,9 @@ new HttpGateway({
 });
 ```
 
-## 逻辑架构
+## WIP: validator / serializer
 
-- Connection
-  - Server
-    - HttpServer
-    - WebSocketServer
-    - WebRtcServer
-    - UdpServer
-  - Client
-    - HTTPClient
-    - WebSocketClient
-    - WebRtcClient
-    - UdpClient
+- 实现 AOT 或 JIT 模式（运行时生成检测代码 eval）加速，大幅提升编解码性能
 
-- ## Contract
+## miscs
+- 剔除未知字段，改叫 strip，而非 prune

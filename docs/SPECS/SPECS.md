@@ -4,19 +4,20 @@
 
 对开发者提供
 
-- tsrpc: `export * from '@tsrpc/node'`
+- tsrpc: All-in-one package, subpath exports
+  - tsrpc/node, tsrpc/browser, tsrpc/mini-program, tsrpc/react, tsrpc/cli
+  - react 为可选 peer dependencies
 - create-tsrpc-app
-- @tsrpc/node
-- @tsrpc/browser
-- @tsrpc/mini-program
-- @tsrpc/react
-- @tsrpc/cli
 
 核心依赖
 
 - @tsrpc/core: RPC 核心库，包括 BaseServer、BaseClient, BaseTransport,
 - @tsrpc/types: 该库只有类型定义，无任何外部依赖，含 Contract、Schema、TsrpcError 等
 - @tsrpc/utils：工具库
+- @tsrpc/node
+- @tsrpc/browser
+- @tsrpc/mini-program
+- @tsrpc/react
 - @tsrpc/cli: 生成 Contract、Sync、Dev、Build、Deploy
 - @tsrpc/contract-generator: Schema / Contract 生成器
 - @tsrpc/validator
@@ -218,6 +219,7 @@ conn.offMsg('Xxx');
 ```
 
 #### 增加 AutoConnect 和 AutoDisconnect 机制
+
 - AutoConnect: 在 callApi / onMsg 时，自动 ensureConnected，默认启用
 - AutoDisconnect: 如果是通过 AutoConnect 连接的，则超过时间限制没有 callApi / onMsg 时，自动关闭；如果是通过 connect 手动连接的，则永远不触发 AutoDisconnect
 - AutoReconnect: 默认开启，意外断开时自动重连，通过 lastConnectionId 自动恢复 connection.meta 状态和 msg 订阅状态；手动断开时不重连
@@ -233,7 +235,9 @@ conn.offMsg('Xxx');
 ```
 
 ### 认证和状态恢复
+
 WIP
+
 - 是否需要框架提供？
 - server.connection.meta
 - server needAuth
@@ -274,6 +278,7 @@ contracts: [
 ## 传输协议无关架构设计
 
 ### @tsrpc/core
+
 - 提供 Server / Client / Transport 的核心抽象
 - 如何兼容长连接、短连接、无连接？
 
@@ -484,5 +489,12 @@ new HttpGateway({
 
 - 实现 AOT 或 JIT 模式（运行时生成检测代码 eval）加速，大幅提升编解码性能
 
+## Draft: 防止多人协作时的 id 冲突
+
+contract 不再存储存储字段和 shchema id，统一由 Server 在运行时生成
+client 连接 server 后，如是 json 则无需获取 schema。
+如是二进制，则无 schema 时通过 string tag 发送，server 发现收到 string tag 后，会自动回传 id number tag，client 收到后则后续所有通讯都通过 number tag 进行。
+
 ## miscs
+
 - 剔除未知字段，改叫 strip，而非 prune

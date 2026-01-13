@@ -150,7 +150,7 @@ TSRPC 4.x 旨在打造一个 **TypeScript 优先、AI 友好、支持实时交�
 
 - **模式**: 短连接，无状态。
 - **实现**: `HttpServer` / `HttpClient`。
-- **特性**: 避免 Preflight/OPTIONS 请求，Header 携带 Meta。
+- **特性**: 避免 Preflight/OPTIONS 请求，Header 携带 Meta。默认使用 fetch，当传递了 onUploadProgress 时，用 XMLHttpRequest。
 
 #### SSE (Server-Sent Events)
 

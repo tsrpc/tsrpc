@@ -1,3 +1,5 @@
+@tsrpc/core (核心逻辑，Transport基类)
+
 - Server
   - registerApi
   - onMsg / offMsg

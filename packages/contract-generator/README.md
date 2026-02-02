@@ -1,0 +1,1 @@
+@tsrpc/contract-generator (Schema生成)

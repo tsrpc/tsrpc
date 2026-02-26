@@ -68,7 +68,7 @@ TSRPC 4.x 旨在打造一个 **TypeScript 优先、AI 友好、支持实时交�
     ```
 2.  **实现**: `src/api/apiHello.ts`
     ```ts
-    export default apiHandler<ReqHello, ResHello>(async (call) => {
+    export default implementApi<ReqHello, ResHello>(async (call) => {
       return call.success({ message: `Hello, ${call.req.name}` });
     });
     ```
@@ -136,6 +136,15 @@ TSRPC 4.x 旨在打造一个 **TypeScript 优先、AI 友好、支持实时交�
 - **Server**: `new Server({ transport, contract, plugins })`
 - **Client**: `new Client({ transport, contract, plugins })`
 - **Transport**: 负责底层数据的发送与接收，屏蔽协议差异。
+- **Connection**: 连接的抽象，负责连接的双向通讯、断开。
+
+### [WIP] Connection
+
+- Connection need ConnectionTransport
+- Client extends Connection, ClientTransport extends ConnectionTransport
+- ServerConnection extends Connection
+- Server need ServerTransport (seperate with ConnectionTransport)
+- Server listen serverTransport.onConnection, create ServerConnection
 
 ### 传输协议设计
 
